@@ -6,9 +6,11 @@ from dotenv import load_dotenv
 
 # Load environment variables from .env file
 load_dotenv()
+
 logging.basicConfig(level=logging.INFO, format=
     '%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
+
 CONFIG_FILE = os.path.join(os.path.dirname(os.path.dirname(__file__)),
     'config.yaml')
 
@@ -23,7 +25,7 @@ def load_config():
         return {}
 
 
-def get_data_paths():
+def get_data_path():
     config = load_config()
     return config.get('data_paths', {})
 
@@ -33,7 +35,7 @@ def get_columns():
     return config.get('columns', {})
 
 
-def get_missing_values_config():
+def get_missing_value_config():
     config = load_config()
     return config.get('missing_values', {})
 
@@ -58,7 +60,7 @@ def get_scaling_config():
     return config.get('feature_scaling', {})
 
 
-def get_splitting_config():
+def get_split_config():
     config = load_config()
     return config.get('data_splitting', {})
 

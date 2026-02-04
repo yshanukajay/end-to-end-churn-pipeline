@@ -1,5 +1,5 @@
 data_paths:
-  raw_data: "../data/telco_data.csv"  # Change to your S3 bucket
+  raw_data: "data/telco_data.csv"  # Change to your S3 bucket
   processed_data: "data/processed/ChurnModelling_Missing_Values_Handled.csv"
   imputed_data: "data/processed/imputed.csv"
   processed_dir: "data/processed"

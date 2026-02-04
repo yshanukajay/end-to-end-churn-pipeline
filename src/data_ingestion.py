@@ -20,3 +20,4 @@ class DataIngestorExcel(DataIngester):
             return pd.read_excel(file_path_or_link)
         except Exception as e:
             raise RuntimeError(f"Error ingesting Excel data: {e}")
+        

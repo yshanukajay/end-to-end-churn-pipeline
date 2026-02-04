@@ -40,13 +40,13 @@ class NominalEncodingStrategy(FeatureEncodingStrategy):
         return df
     
     
-    class OrdinalEncodingStrategy(FeatureEncodingStrategy):
-        def __init__(self, ordinal_mappings):
-            self.ordinal_mappings = ordinal_mappings
+class OrdinalEncodingStrategy(FeatureEncodingStrategy):
+    def __init__(self, ordinal_mappings):
+        self.ordinal_mappings = ordinal_mappings
             
-        def encode(self, df):
-            for col, mapping in self.ordinal_mappings.items():
-                df[col] = df[col].map(mapping)
-                logging.info(f"Encoded ordinal feature '{col}' with mapping: {mapping}") 
-            return df
+    def encode(self, df):
+        for col, mapping in self.ordinal_mappings.items():
+            df[col] = df[col].map(mapping)
+            logging.info(f"Encoded ordinal feature '{col}' with mapping: {mapping}") 
+        return df
         

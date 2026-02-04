@@ -21,7 +21,7 @@ class MissingValueHandlingStrategy(ABC):
         pass
 
 
-class DropMissingValues(MissingValueHandlingStrategy):
+class DropMissingValuesStrategy(MissingValueHandlingStrategy):
     def __init__(self, critical_columns = []):
         self.critical_columns = critical_columns
         logging.info(f"Initialized DropMissingValues with critical columns: {self.critical_columns}")
