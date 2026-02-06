@@ -28,8 +28,8 @@ class DropMissingValuesStrategy(MissingValueHandlingStrategy):
     
     def handle_missing_values(self, df:pd.DataFrame) -> pd.DataFrame:
         df_cleaned = df.dropna(subset = self.critical_columns)
-        logging.info(f"Dropped rows with missing values in columns: {self.critical_columns}")
-        
+        logging.info(f"Dropped rows with missing values in columns: {self.critical_columns}")     
+        return df_cleaned
         
         
 class Gender(str, Enum):
@@ -42,7 +42,12 @@ class GenderPrediction(BaseModel):
     lastname: str
     predicted_gender: Gender
     
+
+class GenderImputer:
+    def __init__(self):
+        self.groq_client = groq.Groq()
     def predict_gender(
+        self,
         firstname: str,
         lastname: str
     ):
@@ -70,8 +75,8 @@ class GenderPrediction(BaseModel):
         missing_gender_index = df.Gender.isnull()
         
         for idx in df[missing_gender_index].index:
-            first_name = df.loc[idx, 'FirstName']
-            last_name = df.loc[idx, 'LastName']
+            first_name = df.loc[idx, 'Firstname']
+            last_name = df.loc[idx, 'Lastname']
             gender = self.predict_gender(first_name, last_name)
             
             if gender:
@@ -101,14 +106,14 @@ class fillingMissingValuesStrategy(MissingValueHandlingStrategy):
             f"Initialized fillingMissingValuesStrategy with method: {self.method}, fill_value: {self.fill_value}, relevant_column: {self.relevant_column}, is_custom_imputer: {self.is_custom_imputer}"
         )
         
-        def handle_missing_values(self):
-            if self.is_custom_imputer:
-                df = self.custom_imputer.impute(df)
-                logging.info("Applied custom imputer for missing values.")
+    def handle_missing_values(self, df):
+        if self.is_custom_imputer:
+            df = self.custom_imputer.impute(df)
+            logging.info("Applied custom imputer for missing values.")
                 
-            df[self.relevant_column] = df[self.relevant_column].fillna(df[self.relevant_column].mean())
-            logging.info(f"Filled missing values in column {self.relevant_column} using method: {self.method}")
-            return df
+        df[self.relevant_column] = df[self.relevant_column].fillna(df[self.relevant_column].mean())
+        logging.info(f"Filled missing values in column {self.relevant_column} using method: {self.method}")
+        return df
         
      
             

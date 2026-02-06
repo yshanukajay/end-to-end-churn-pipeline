@@ -7,7 +7,7 @@ import yaml
 
 sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'src'))
 from data_ingestion import DataIngestorCSV
-from handling_missing_values import DropMissingValuesStrategy, fillingMissingValuesStrategy, GenderPrediction
+from handling_missing_values import DropMissingValuesStrategy, fillingMissingValuesStrategy, GenderImputer
 from outlier_detection import IQROutlierDetection, OutlierDetector
 from feature_binning import CustomBinningStrategy
 from feature_encoding import NominalEncodingStrategy, OrdinalEncodingStrategy
@@ -58,10 +58,35 @@ def data_pipeline(
            y_train = pd.read_csv(y_train_path)
            y_test = pd.read_csv(y_test_path)  
            
-    ingester = DataIngestorCSV()     
-    df = ingester.ingest_data(data_path)
-    print("Data Ingestion Completed.")
-    print(f"Data Shape: {df.shape}")
+           
+    if not os.path.exists('temp_imputed_data.csv'):       
+        ingester = DataIngestorCSV()     
+        df = ingester.ingest_data(data_path)
+        print("Data Ingestion Completed.")
+        print(f"Data Shape: {df.shape}")
+        
+        
+        print('Handling Missing Values...')
+        drop_handler = DropMissingValuesStrategy(critical_columns=columns_config['critical_columns'])
+        
+        age_handler = fillingMissingValuesStrategy(
+            method='mean',
+            relevant_column='Age'
+        )
+        
+        gender_handler = fillingMissingValuesStrategy(
+            relevant_column='Gender',
+            is_custom_imputer=True,
+            custom_imputer=GenderImputer()
+        )
+        
+        df = drop_handler.handle_missing_values(df)
+        df = age_handler.handle_missing_values(df)
+        df = gender_handler.handle_missing_values(df)
+        df.to_csv('temp_imputed_data.csv')
+    
+    df = pd.read_csv('temp_imputed_data.csv')
+    print("Missing Value Handling Completed.")
     
 data_pipeline()
         
