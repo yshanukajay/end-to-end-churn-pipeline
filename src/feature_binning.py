@@ -16,18 +16,20 @@ class CustomBinningStrategy(FeatureBinningStrategy):
     def __init__(self, bin_definitions):
         self.bin_definitions = bin_definitions
     
-    def bin_features(self, df, col):
+    def bin_feature(self, df, col):
         def assign_bin(value):
             if value == 850:
                 return 'Excellent'
 
-            for bin_range, label in self.bin_definitions.items():
+            for label, bin_range in self.bin_definitions.items():
                 if len(bin_range) == 2:
                     if bin_range[0] <= value <= bin_range[1]:
                         return label
                 elif len(bin_range) == 1:
                     if value >= bin_range[0]:
-                        return label
+                        return label      
+            if value > 850:
+                return 'Invalid'
             
             return 'Invalid'
 
