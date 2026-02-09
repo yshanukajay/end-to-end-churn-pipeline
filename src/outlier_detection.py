@@ -20,6 +20,7 @@ class IQROutlierDetection(OutlierDetectionStrategy):
             Q1 = df[col].quantile(0.25)
             Q3 = df[col].quantile(0.75)
             IQR = Q3 - Q1
+            print(f'IQR for {col}: {IQR}')
             outliers[col] = (df[col] < (Q1 - 1.5 * IQR)) | (df[col] > (Q3 + 1.5 * IQR))
             
         logging.info(f"Detected outliers using IQR method for columns: {columns}")

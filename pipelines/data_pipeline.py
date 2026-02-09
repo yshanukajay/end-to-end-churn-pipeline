@@ -88,5 +88,12 @@ def data_pipeline(
     df = pd.read_csv('temp_imputed_data.csv')
     print("Missing Value Handling Completed.")
     
+    print('Detecting and Handling Outliers...')
+    
+    outlier_detector = OutlierDetector(strategy=IQROutlierDetection())
+    df = outlier_detector.handle_outliers(df, columns_config['outlier_columns'])
+    print(f'After Outlier Handling, Data Shape: {df.shape}')
+    print("Outlier Detection and Handling Completed.")
+    
 data_pipeline()
         

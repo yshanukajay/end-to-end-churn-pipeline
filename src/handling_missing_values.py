@@ -110,9 +110,9 @@ class fillingMissingValuesStrategy(MissingValueHandlingStrategy):
         if self.is_custom_imputer:
             df = self.custom_imputer.impute(df)
             logging.info("Applied custom imputer for missing values.")
-                
-        df[self.relevant_column] = df[self.relevant_column].fillna(df[self.relevant_column].mean())
-        logging.info(f"Filled missing values in column {self.relevant_column} using method: {self.method}")
+        else:
+            df[self.relevant_column] = df[self.relevant_column].fillna(df[self.relevant_column].mean())
+            logging.info(f"Filled missing values in column {self.relevant_column} using method: {self.method}")
         return df
         
      
