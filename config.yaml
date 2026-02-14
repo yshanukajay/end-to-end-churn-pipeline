@@ -6,10 +6,10 @@ data_paths:
   artifacts_dir: "artifacts"
   data_artifacts_dir: "artifacts/data"
   train_artifacts_dir: "artifacts/train_artifacts"
-  X_train: "artifacts/data/X_train.csv"
-  X_test: "artifacts/data/X_test.csv"
-  Y_train: "artifacts/data/Y_train.csv"
-  Y_test: "artifacts/data/Y_test.csv"
+  X_train_path: "artifacts/data/X_train.csv"
+  X_test_path: "artifacts/data/X_test.csv"
+  Y_train_path: "artifacts/data/Y_train.csv"
+  Y_test_path: "artifacts/data/Y_test.csv"
 
 columns:
   target: "Exited"
