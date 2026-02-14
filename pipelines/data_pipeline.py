@@ -42,7 +42,8 @@ def data_pipeline(
     
     
     print("Step 00 : Starting Data Ingestion...")
-    artifacts_dir = os.path.join(os.path.dirname(__file__), '..', data_paths_config['artifacts_dir']) 
+    artifacts_dir = os.path.join(os.path.dirname(__file__), '..', data_paths_config['data_artifacts_dir']) 
+    os.makedirs(artifacts_dir, exist_ok=True)
     X_train_path = os.path.join(artifacts_dir, 'X_train.csv')
     X_test_path = os.path.join(artifacts_dir, 'X_test.csv')
     y_train_path = os.path.join(artifacts_dir, 'y_train.csv')
@@ -133,6 +134,14 @@ def data_pipeline(
     print(f"X_test shape: {X_test.shape}")
     print(f"y_train shape: {y_train.shape}")
     print(f"y_test shape: {y_test.shape}")
+    
+    # Save split data to artifacts
+    print(f"\nSaving split data to {artifacts_dir}...")
+    X_train.to_csv(X_train_path, index=False)
+    X_test.to_csv(X_test_path, index=False)
+    y_train.to_csv(y_train_path, index=False)
+    y_test.to_csv(y_test_path, index=False)
+    print("Split data saved successfully!")
     
     
 data_pipeline()
