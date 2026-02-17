@@ -1,4 +1,5 @@
 import os
+from pyexpat import model
 import sys
 import joblib
 import logging
@@ -8,6 +9,7 @@ from typing import Dict, Any, Optional, Tuple
 
 sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'src'))
 from model_training import ModelTrainer
+from model_building import RandomForestModelBuilder, XGBoostModelBuilder
 
 sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'utils'))
 from config import get_model_config, get_data_path
@@ -32,8 +34,27 @@ def training_pipeline(
     
     else:
         print("Data artifacts already exist. Skipping data pipeline and loading existing artifacts...")
+
+    logging.info("Starting training pipeline...")
+
+    # Load data
+    X_train = pd.read_csv(get_data_path()['X_train_path'])
+    y_train = pd.read_csv(get_data_path()['Y_train_path'])
+    X_test = pd.read_csv(get_data_path()['X_test_path'])
+    y_test = pd.read_csv(get_data_path()['Y_test_path'])
+
+    # Build model
+    model_builder = XGBoostModelBuilder(**get_model_config()['model_params'])
+    model = model_builder.build_model()
+
+    # Train model
+    trainer = ModelTrainer()
+    model, train_score = trainer.train(model, X_train, y_train)
+    print(model_params)
+    logger.info(f"Training completed with training score: {train_score:.4f}")
+
         
-training_pipeline()
+training_pipeline(model_params=get_model_config()['model_params'])
            
         
 

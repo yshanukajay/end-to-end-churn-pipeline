@@ -45,7 +45,7 @@ class RandomForestModelBuilder(BaseModelBuilder):
         super().__init__('RandomForest', **default_params)
         
     def build_model(self):
-        self.model = RandomForestClassifier(self.model_params)
+        self.model = RandomForestClassifier(**self.model_params)
         return self.model
     
 class XGBoostModelBuilder(BaseModelBuilder):
@@ -53,15 +53,18 @@ class XGBoostModelBuilder(BaseModelBuilder):
         default_params = {
             'n_estimators': 100,
             'max_depth': 10,
-            'random_state': 42,
-            'min_samples_split': 2,
-            'min_samples_leaf': 1,
+            'random_state': 42
         }
         
         default_params.update(kwargs)
         super().__init__('XGBoost', **default_params)
         
     def build_model(self):
-        self.model = XGBClassifier(self.model_params)
+        self.model = XGBClassifier(**self.model_params)
         return self.model
       
+model_params = {
+    'n_estimators': 100,
+    'max_depth': 10,
+    'random_state': 42,
+}

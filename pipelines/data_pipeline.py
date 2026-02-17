@@ -1,4 +1,5 @@
 import os
+import logging
 import sys
 import pandas as pd
 import numpy as np
@@ -142,6 +143,8 @@ def data_pipeline(
     y_train.to_csv(y_train_path, index=False)
     y_test.to_csv(y_test_path, index=False)
     print("Split data saved successfully!")
+
+    logging.info("Data pipeline completed successfully.")
     
     
 data_pipeline()

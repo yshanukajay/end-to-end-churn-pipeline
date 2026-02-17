@@ -115,7 +115,7 @@ model:
   training_engine: "sklearn"
   model_type: "random_forest"
   training_strategy: "cv"
-  data_path: "data/raw/ChurnModelling.csv"
+  data_path: "data/telco_data.csv"
   model_path: "artifacts/models/spark_random_forest_cv_model"
   evaluation_path: "artifacts/evaluation/spark_random_forest_cv_evaluation_report.txt"
   model_params:
