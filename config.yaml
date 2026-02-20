@@ -8,8 +8,8 @@ data_paths:
   train_artifacts_dir: "artifacts/train_artifacts"
   X_train_path: "artifacts/data/X_train.csv"
   X_test_path: "artifacts/data/X_test.csv"
-  Y_train_path: "artifacts/data/Y_train.csv"
-  Y_test_path: "artifacts/data/Y_test.csv"
+  Y_train_path: "artifacts/data/y_train.csv"
+  Y_test_path: "artifacts/data/y_test.csv"
 
 columns:
   target: "Exited"
