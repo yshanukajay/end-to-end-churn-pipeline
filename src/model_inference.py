@@ -68,29 +68,5 @@ class ModelInference:
             "Confidence": float(Y_pred_proba[0])
         }
  
-data = {
-  "RowNumber": 6,
-  "CustomerId": 15574012,
-  "Firstname": "Jack",
-  "Lastname": "Smith",
-  "CreditScore": 645,
-  "Geography": "Spain",
-  "Gender": "Male",
-  "Age": 44,
-  "Tenure": 8,
-  "Balance": 113755.78,
-  "NumOfProducts": 2,
-  "HasCrCard": 1,
-  "IsActiveMember": 0,
-  "EstimatedSalary": 149756.71,
-}
-    
-inference = ModelInference(model_path="artifacts/models/churn_analysis_model.joblib")
-inference.load_encoders('artifacts/encoders')
 
-preprocessed_data = inference.preprocess_input(data)
-print(preprocessed_data)
-
-result = inference.predict(data)
-print(result)
       
