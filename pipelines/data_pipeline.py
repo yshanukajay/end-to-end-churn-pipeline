@@ -14,6 +14,7 @@ from feature_binning import CustomBinningStrategy
 from feature_encoding import NominalEncodingStrategy, OrdinalEncodingStrategy
 from feature_scaling import MinMaxScalingStrategy
 from data_splitter import SimpleDataSplitStrategy
+from mlflow_utils import MLflowTracker, setup_mlflow_autolog, create_mlflow_run_tags
 
 sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'utils'))
 from config import (get_data_path,
@@ -40,6 +41,15 @@ def data_pipeline(
     encoding_config = get_encoding_config()
     scaling_config = get_scaling_config()
     splitting_config = get_split_config()
+
+    mlflow_tracker = MLflowTracker()
+    setup_mlflow_autolog()
+    run_tags = create_mlflow_run_tags(
+        'data_pipeline', {
+            'data_source': data_path
+        }
+    )
+    mlflow_tracker.start_run(run_name='Data Pipeline', tags=run_tags)
     
     
     print("Step 00 : Starting Data Ingestion...")
@@ -59,9 +69,13 @@ def data_pipeline(
            X_test = pd.read_csv(X_test_path)
            y_train = pd.read_csv(y_train_path)
            y_test = pd.read_csv(y_test_path)  
+
+    
+    os.makedirs(data_paths_config['temp_dir'], exist_ok=True)
+    os.makedirs(data_paths_config.get('processed_dir', 'data/processed'), exist_ok=True)
+    imputed_path = data_paths_config.get('imputed_data', 'data/processed/imputed.csv')
            
-           
-    if not os.path.exists('temp_imputed_data.csv'):       
+    if not os.path.exists(imputed_path):       
         ingester = DataIngestorCSV()     
         df = ingester.ingest_data(data_path)
         print("\nData Ingestion Completed.")

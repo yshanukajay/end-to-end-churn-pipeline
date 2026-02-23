@@ -196,6 +196,25 @@ logging:
   format: "%(asctime)s - %(levelname)s - %(message)s"
   file: "pipeline.log"
 
+mlflow:
+  # MLflow URLs - automatically selected based on CONTAINERIZED environment variable
+  local_tracking_uri: "http://localhost:5001"           # Local MLflow server
+  docker_tracking_uri: "http://mlflow-tracking:5001"    # Dockerized MLflow server
+  experiment_name: "Churn Analysis"
+  artifact_root: "s3://mlflow-artifacts-prod/artifacts/mlflow-artifacts"
+  # S3-based tracking backend (instead of local files)
+  s3_tracking_backend: true
+  s3_tracking_bucket: "mlflow-artifacts-prod"
+  s3_tracking_prefix: "artifacts/mlflow-tracking"
+  model_registry_name: "churn_prediction"
+  artifact_path: "model"
+  run_name_prefix: "churn_run"
+  tags:
+    project: "customer_churn_prediction"
+    team: "ml_engineering"
+    environment: "development"
+  autolog: true
+
 environment:
   experiment_name: "churn_analysis"
 
