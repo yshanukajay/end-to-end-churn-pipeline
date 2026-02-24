@@ -40,7 +40,7 @@ class ModelEvaluator:
         f1 = f1_score(Y_test, Y_pred)
         
         self.evaluation_results = {
-            "confusion_matrix": cm,
+            #"confusion_matrix": cm,
             "accuracy": acc_score, 
             "precision": prec_score,
             "recall": recall,

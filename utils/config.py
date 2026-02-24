@@ -223,7 +223,7 @@ def get_mlflow_config() -> Dict[str, Any]:
     return {
         'tracking_uri': os.getenv('MLFLOW_TRACKING_URI') or mlflow_config.get('tracking_uri', 'http://localhost:5001'),
         'artifact_root': os.getenv('MLFLOW_DEFAULT_ARTIFACT_ROOT') or mlflow_config.get('artifact_root'),
-        'experiment_name': mlflow_config.get('experiment_name', 'Zuu Crew Churn Analysis')
+        'experiment_name': mlflow_config.get('experiment_name', 'Churn Analysis')
     }
 
 

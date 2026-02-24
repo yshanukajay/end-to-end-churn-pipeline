@@ -8,6 +8,7 @@ from data_pipeline import data_pipeline
 from typing import Dict, Any, Optional, Tuple
 
 sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'src'))
+from mlflow_utils import MLflowTracker, create_mlflow_run_tags, setup_mlflow_autolog
 from model_training import ModelTrainer
 from model_evaluation import ModelEvaluator
 from model_building import RandomForestModelBuilder, XGBoostModelBuilder
@@ -38,6 +39,18 @@ def training_pipeline(
 
     logging.info("Starting training pipeline...")
 
+    mlflow_tracker = MLflowTracker()
+    setup_mlflow_autolog()
+    run_tags = create_mlflow_run_tags(
+        'training_pipeline', {
+            'model_type': 'XGBoost',
+            'training_strategy':'simple',
+            'other_models': 'RandomForest'
+        }
+    )
+
+    run=mlflow_tracker.start_run(run_name='Training Pipeline', tags=run_tags)
+
     # Load data
     X_train = pd.read_csv(get_data_path()['X_train_path'])
     y_train = pd.read_csv(get_data_path()['Y_train_path'])
@@ -63,6 +76,9 @@ def training_pipeline(
     results = evaluater.evaluate(X_test, y_test)
     logger.info(f"Evaluation results: {results}")
 
+    params=get_model_config()['model_params']
+    mlflow_tracker.log_training_metrics(model, results, params)
+    mlflow_tracker.end_run()
         
 if __name__ == "__main__":
     training_pipeline(model_params=get_model_config()['model_params'])
