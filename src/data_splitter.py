@@ -4,6 +4,9 @@ from enum import Enum
 from abc import ABC, abstractmethod
 from typing import Tuple
 from sklearn.model_selection import train_test_split
+from pyspark.sql import DataFrame as SparkDataFrame
+from pyspark.sql import functions as F
+from spark_session import get_or_create_spark_session
 
 logging.basicConfig(
     level=logging.INFO,
